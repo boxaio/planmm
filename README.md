@@ -1,5 +1,9 @@
 # PlanMM
 
+<p align="center">
+  <img src="figures/fig_demo_hack_render_stacks.png" alt="PlanMM HACK render stacks" width="100%"/>
+</p>
+
 PlanMM is a Poisson-integrated mesh autoencoder for the **HACK** head topology. It tokenizes mesh patches with Poisson operators, encodes/decodes with an MLP-Mixer stack, and reconstructs vertices via a hybrid Poisson mesh readout.
 
 ## Dataset
