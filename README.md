@@ -9,7 +9,7 @@ Training uses the **HACK** mesh dataset (`dataset/hack_dataset.py`), built from 
 | Source | Role |
 |--------|------|
 | FaceScape | Multi-identity / expression head scans |
-| ImHead | In-the-wild / captured head meshes |
+| [ImHead](https://rolpotamias.github.io/imHead/) | Large-scale implicit head shapes used as HACK-fit sources |
 | FFHQ | Photo-driven refined HACK meshes |
 
 All samples share the same HACK template connectivity (~14k vertices / ~28k faces). Splits are listed in `dataset/train_hack.pt`, `val_hack.pt`, and `test_hack.pt` (paths point to your local mesh roots; update them before training). Template and region metadata live under `dataset/` and `data/hack_data/`.
