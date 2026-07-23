@@ -6,28 +6,6 @@
 
 PlanMM is a Poisson-integrated mesh autoencoder for the **HACK** head topology. It tokenizes mesh patches with Poisson operators, encodes/decodes with an MLP-Mixer stack, and reconstructs vertices via a hybrid Poisson mesh readout.
 
-## Results
-
-<p align="center">
-  <img src="figures/PLANMM_HACK_generate_local_chin.png" alt="Local chin edit" width="100%"/><br/>
-  <em>Local generation — chin region</em>
-</p>
-
-<p align="center">
-  <img src="figures/PLANMM_HACK_generate_local_eyes.png" alt="Local eyes edit" width="100%"/><br/>
-  <em>Local generation — eye region</em>
-</p>
-
-<p align="center">
-  <img src="figures/PLANMM_HACK_generate_local_nose.png" alt="Local nose edit" width="100%"/><br/>
-  <em>Local generation — nose region</em>
-</p>
-
-<p align="center">
-  <img src="figures/PLANMM_HACK_interpolate_global.png" alt="Global interpolation" width="100%"/><br/>
-  <em>Global latent interpolation (neutral → smile)</em>
-</p>
-
 ## Dataset
 
 Training uses the **HACK** mesh dataset (`dataset/hack_dataset.py`), built from repaired HACK fits of three sources:
@@ -86,3 +64,25 @@ networks/        # PlanMM / PoissonNet / encoders
 render/          # rendering helpers
 utils/           # shared utilities
 ```
+
+## Results
+
+<p align="center">
+  <img src="figures/PLANMM_HACK_generate_local_chin.png" alt="Local chin edit" width="100%"/><br/>
+  <em>Local generation — chin region</em>
+</p>
+
+<p align="center">
+  <img src="figures/PLANMM_HACK_generate_local_eyes.png" alt="Local eyes edit" width="100%"/><br/>
+  <em>Local generation — eye region</em>
+</p>
+
+<p align="center">
+  <img src="figures/PLANMM_HACK_generate_local_nose.png" alt="Local nose edit" width="100%"/><br/>
+  <em>Local generation — nose region</em>
+</p>
+
+<p align="center">
+  <img src="figures/PLANMM_HACK_interpolate_global.png" alt="Global interpolation" width="100%"/><br/>
+  <em>Global latent interpolation (neutral → smile)</em>
+</p>
