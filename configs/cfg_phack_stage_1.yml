@@ -1,0 +1,122 @@
+world_size: 2
+use_ddp: True
+device: cuda:0
+seed: 1926
+num_workers: 4
+image_size: 224
+allow_aug: True    
+preprocess: 'shift_rot_flip'
+shift_pixs: 3.0 
+rot_angle: 1.0
+bfm_folder: /home/ubuntu/MyExp/Deep3DFaceRecon_pytorch/BFM/
+net_recog: 'r50'
+net_recog_path: /home/ubuntu/MyExp/PHACK/pretrained_weights/ms1mv3_arcface_r50_fp16/backbone.pth
+K: 1 # temporal sequence length
+isTrain: True
+phase: 'train'
+continue_train: False
+epoch_count: 0
+checkpoints_dir: /media/ubuntu/SSD/TRACK/checkpoints
+exp_name: stage_1
+# exp_name: stage_1_resnet50
+# exp_name: stage_1_mobilenet
+enable_translator: False
+
+Dataset:
+  CREMAD_ratio: 0.1
+  Hallo3_ratio: 0.45
+  MEAD_ratio: 0.1
+  FFHQ_ratio: 0.35
+  # ImHead_ratio: 0.15
+  # FaceScape_ratio: 0.15
+
+LearningRate:
+  base: 0.0001
+  pose: 0.00005
+  shape: 0.0002
+  expression: 0.0002
+  muon: 0.02  # learning rate for Muon (hidden matrices) when Train.use_muon is true; AdamW LRs stay per-head above
+
+Train:
+  optimizer: 'AdamW'  # used for encoder when use_muon is false; with use_muon, encoder uses Muon+AdamW (see Muon/README.md)
+  use_muon: True  # true: Muon on hidden weight matrices (ndim>=2), AdamW on biases/norms; false: plain optimizer above
+  # muon_lr: 0.02  # optional override; default is LearningRate.muon or 0.02
+  muon_momentum: 0.95
+  weight_decay: 0.0
+  adam_betas: [0.9, 0.95]
+  adam_eps: 1.0e-10
+  profile_uv_timing: false  # true to print UV timing breakdown
+  uv_timing_every: 50       # print once per N optimize steps
+  lr_scheduler: 
+    # name: 'CosineAnnealingLR'
+    name: 'MultiStepLR'
+    gamma: 0.5
+    milestones: [0.5, 0.8]
+  num_epochs: 30
+  batch_size: 32
+  freeze_backbone_after_epoch: 5
+  log_path: /media/ubuntu/SSD/TRACK/logs
+  print_freq: 10
+  log_losses_every: 10
+  display_freq: 5000
+  val_display_freq: 1000
+  save_epoch_freq: 5
+  Ke: 1 # number of repeated frames for 2nd path
+  samples_per_epoch: 400000
+  resume_epoch: 0
+  
+  optimize_pose: True
+  optimize_shape: True
+  optimize_expression: True
+
+  loss_weights:
+    landmarks: 3.0
+    lips: 1.0
+    eyelids: 1.0
+    photo_normals: 0.02
+    normals_cosine: 0.5
+    # 眼部法线：mask = render mask_images_eyes ∩ parsing face（与全脸 normals 叠加）
+    photo_normals_eyes: 0.1
+    normals_cosine_eyes: 0.35
+    grad_normals: 3.0
+    # UV normal supervision disabled
+    uv_map_normals: 0.0
+    uv_map_normals_cosine: 0.0
+    recognition: 0.15
+    perceptual_vgg_loss: 0.1
+    reconstruction_loss: 0.0
+    emotion_loss: 0.0
+    cycle_loss: 0.0
+    reg:
+      expression: 0.5
+      shape: 0.04
+      neck_pose: 0.1
+      
+  
+Model:
+  backbone: resnet50
+  n_expression: 55
+  n_shape: 200
+  # PHACKEncoderResNet shared: LayerNorm + optional residual blocks (see SharedTrunk in phack_encoder_resnet.py).
+  # Set layer_norm True for new runs; keep False to load old checkpoints that use shared.0/1/2.
+  encoder_shared_layer_norm: False
+  encoder_shared_residual_blocks: 3
+  # shape/expression: legacy ReLU MLP if LN off and hidden_residual 0 and dropout 0.
+  # Otherwise GELU MLP (no skip). hidden_residual = extra hidden Linear+GELU blocks.
+  encoder_head_layer_norm: False
+  encoder_head_hidden_residual: 1
+  encoder_head_dropout: 0.0
+  # neck: LayerNorm(z) + GELU MLP -> 6D; 0 = legacy Linear only (old checkpoint)
+  encoder_neck_pose_hidden: 128
+  encoder_trans_hidden: 128
+  encoder_trans_use_layer_norm: False
+
+Render:
+  use_opengl: True
+  z_near: 5.0
+  z_far: 15.0
+  center: 112.0
+  focal: 1015.0
+  camera_distance: 10.0
+
+

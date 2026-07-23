@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+imgui.ini
+.polyscope.ini
+
+# Local / cache
+*.log
+.cache/
+tmp/
+.tmp/
+
+# Large model weights (exceed GitHub limits; keep local only)
+checkpoint/*.onnx
+checkpoint/*.pth
+*.onnx
+*.pth
+
+# Optional heavy runtime artifacts
+*.blend1
